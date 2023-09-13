@@ -56,19 +56,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: push-to-docker-hub
     steps:
-      - name: Restart docker container
-        uses: appleboy/ssh-action@master
-        with:
-          host: capstone-project.de
-          #Set App Name (replace "example" with your ssh user name)
-          username: muc-java-23-1-marcell
-          password: ${{ secrets.SSH_PASSWORD }}
-          #Set App Name (replace "example" with your ssh user name)
-          #Set dockerhub project (replace "bartfastiel/java-capstone-project.de-example-app")
-          #Set IP (replace "10.0.1.99" with your ip address)
-          script: |
-            sudo docker stop muc-java-23-1-marcell
-            sudo docker rm muc-java-23-1-marcell
-            sudo docker run --pull=always --name muc-java-23-1-marcell --network capstones --ip 10.0.6.10 --detach --env MONGO_DB_URI=${{ secrets.MONGO_DB_URI }} moinmarcell/test-deploy:latest
-            sleep 15s
-            sudo docker logs muc-java-23-1-marcell
+      - name: Trigger Render.com Deployment
+        run: |
+          curl -X POST https://api.render.com/deploy/srv-ck0oofpjbtgs73c9hd9g?key=jpKO8qsIbfw
